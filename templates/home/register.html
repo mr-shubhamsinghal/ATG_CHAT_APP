@@ -6,8 +6,8 @@
 
 {% block body_block %}
 	<h1>Register Form</h1>
-	
-	<form action="{% url 'user_app:register' %}" method="POST">
+
+	<form action="{% url 'user_app:register' %}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		<fieldset class="form-group">
 			{% for field in form %}
@@ -22,6 +22,12 @@
 		        {% endfor %}
 		      </p>
 		    {% endfor %}
+		    {% if error_msg %}
+		    	<p style="color:red">{{ error_msg }}</p><br>
+		    {% endif %}
+		    <img src="{{ captcha }}">
+		    <input type="img" value='{{ captcha }}' name="captcha_challenge" hidden>
+		    <input type="text" name="captcha_result">
 	        <!-- {{ form.as_p }} -->
 		</fieldset>
 	    <div class="form-group">
