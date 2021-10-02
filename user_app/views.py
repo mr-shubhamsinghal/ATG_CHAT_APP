@@ -8,8 +8,7 @@ from user_app.forms import UserRegisterForm
 from user_app import utils
 
 def home(request):
-	context = {'homepage_error': ''}
-	return render(request, 'home/homepage.html', context)
+	return render(request, 'home/homepage.html')
 
 
 def register(request):
@@ -50,8 +49,8 @@ def search_user(request):
 	try:
 		username = request.POST.get('username')
 		second_user = User.objects.get(username=username)
-	except User.DoesNotExist:
-		context = {'homepage_error': username + ' username does not exist'}
-		return render(request, 'home/homepage.html', context)
-	context = {'second_username': username}
-	return render(request, 'chat/chat_page.html', context)
+	except User.DoesNotExist as e:
+		return redirect('user_app:home')
+		# msg = username + ' username does not exist'
+		# return render(request, 'user_app:home', {'homepage_error': msg})
+	return redirect('chat_app:chat', username=username)
