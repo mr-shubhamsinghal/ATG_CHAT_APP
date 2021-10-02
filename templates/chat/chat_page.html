@@ -1,1 +1,12 @@
-chat_page.html
+{% extends 'base.html' %}
+
+{% block title_block %}
+	Chat
+{% endblock title_block %}
+
+{% block body_block %}
+	<h2>Chating page</h2>
+
+	<p style="color:green">{{ second_username }}</p>
+{% endblock body_block %}
+
