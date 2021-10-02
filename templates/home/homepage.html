@@ -8,6 +8,19 @@
 
 {% if user.is_authenticated %}
   Hi {{ user.username }}!
+
+
+  <p style="color:green"> Search user with username to chat with.. </p>
+  <form action="{% url 'user_app:search-user' %}" method="POST">
+    {% csrf_token %}
+    <input type="text" placeholder="Search" name="username">
+    <button type="submit">Submit</button>
+  </form>
+
+  {% if homepage_error %}
+    {{ homepage_error }}
+  {% endif %}
+
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
   <p>You are not logged in</p>

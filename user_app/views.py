@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
 
 from user_app.models import captchaModel
 
@@ -7,7 +8,8 @@ from user_app.forms import UserRegisterForm
 from user_app import utils
 
 def home(request):
-	return render(request, 'home/homepage.html')
+	context = {'homepage_error': ''}
+	return render(request, 'home/homepage.html', context)
 
 
 def register(request):
@@ -42,3 +44,14 @@ def register(request):
 		}
 
 	return render(request, 'home/register.html', context)
+
+
+def search_user(request):
+	try:
+		username = request.POST.get('username')
+		second_user = User.objects.get(username=username)
+	except User.DoesNotExist:
+		context = {'homepage_error': username + ' username does not exist'}
+		return render(request, 'home/homepage.html', context)
+	context = {'second_username': username}
+	return render(request, 'chat/chat_page.html', context)
